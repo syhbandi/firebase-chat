@@ -1,4 +1,4 @@
-import { auth, db } from "@/firebase.config";
+import { auth, db } from "@/firebaseConfig";
 import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
@@ -20,12 +20,14 @@ const AuthContext = createContext<{
     profileUrl: string;
   }) => void;
   isAuthenticated?: boolean;
+  loading: boolean;
 }>({
   user: null,
   login: () => {},
   logout: () => {},
   register: () => null,
   isAuthenticated: false,
+  loading: true,
 });
 
 // hook biar bisa ambil isi session (user dll)
@@ -39,15 +41,17 @@ export function useAuth() {
   return value;
 }
 
-type UserType = {
+export type UserType = {
+  uid?: string;
   username?: string;
   email?: string;
-  profielUrl?: string;
+  profileUrl?: string;
 };
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<UserType | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (user: UserType | any) => {
@@ -55,9 +59,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         setIsAuthenticated(true);
         setUser(user);
         updateUserData(user.uid);
+        setLoading(false);
       } else {
         setIsAuthenticated(false);
         setUser(null);
+        setLoading(false);
       }
     });
     return unsub;
@@ -69,13 +75,15 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     setUser((current) => ({
       ...current,
       username: data?.username,
-      profielUrl: data?.profileUrl,
+      profileUrl: data?.profileUrl,
     }));
   };
 
   const login = async (email: string, password: string) => {
+    setLoading(true);
     try {
       await signInWithEmailAndPassword(auth, email, password);
+      setLoading(false);
     } catch (error: any) {
       let msg = error.message;
       if (error.message.includes("(auth/invalid-email)"))
@@ -86,6 +94,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         msg =
           "Terlalu banyak percobaan login, silakan setel ulang password atau tunggu beberapa saat lagi";
       Alert.alert("Login gagal!", msg);
+      setLoading(false);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -100,6 +111,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     password: string;
     profileUrl: string;
   }) => {
+    setLoading(true);
     try {
       const response = await createUserWithEmailAndPassword(
         auth,
@@ -111,6 +123,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         profileUrl,
         userId: response.user.uid,
       });
+      setLoading(false);
     } catch (error: any) {
       let msg = error.message;
       if (error.message.includes("(auth/invalid-email)"))
@@ -120,16 +133,27 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       if (error.message.includes("(auth/email-already-in-use)"))
         msg = "email sudah digunakan";
       Alert.alert("Login gagal!", msg);
+      setLoading(false);
+    } finally {
+      setLoading(false);
     }
   };
 
-  const logout = () => {
-    signOut(auth);
+  const logout = async () => {
+    try {
+      setLoading(true);
+      await signOut(auth);
+    } catch (error) {
+      Alert.alert("Oops...", "Gagal melakukan logout");
+      setLoading(false);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <AuthContext.Provider
-      value={{ user, isAuthenticated, login, register, logout }}
+      value={{ user, isAuthenticated, login, register, logout, loading }}
     >
       {children}
     </AuthContext.Provider>

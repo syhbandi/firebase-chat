@@ -41,7 +41,7 @@ const HomeHeader = () => {
       <Menu>
         <MenuTrigger>
           <Image
-            source={{ uri: user?.profielUrl }}
+            source={{ uri: user?.profileUrl }}
             placeholder={blurhash}
             contentFit="cover"
             transition={1000}

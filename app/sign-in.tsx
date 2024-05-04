@@ -10,26 +10,25 @@ import React, { useState } from "react";
 import { Feather } from "@expo/vector-icons";
 import { Redirect, useRouter } from "expo-router";
 import { useAuth } from "@/context/authContext";
+import { StatusBar } from "expo-status-bar";
 
 export default function SignIn() {
   const router = useRouter();
-  const { isAuthenticated, login } = useAuth();
+  const { isAuthenticated, login, loading } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
 
   const handleLogin = () => {
     if (!email || !password)
       return Alert.alert("Oopss!", "Email dan password tidak boleh kosong");
-    setLoading(true);
     login(email, password);
-    setLoading(false);
   };
 
   if (isAuthenticated) return <Redirect href={"/"} />;
 
   return (
     <View className=" bg-white flex-1  justify-center px-5">
+      <StatusBar style="dark" />
       <Text className="text-3xl font-bold text-center mb-5">Login</Text>
       <View className="flex-row items-center px-3 py-2 rounded-xl border border-neutral-200 mb-3">
         <Feather name="mail" size={20} color={"gray"} />

@@ -26,7 +26,7 @@ export default function SignUp() {
     if (!email || !password || !username || !profileUrl)
       return Alert.alert("Oops!", "Data belum lengkap");
     setLoading(true);
-    register({ username, email, password, profileUrl });
+    await register({ username, email, password, profileUrl });
     setLoading(false);
   };
 
