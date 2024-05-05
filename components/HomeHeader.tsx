@@ -11,6 +11,7 @@ import {
   MenuOption,
   MenuTrigger,
 } from "react-native-popup-menu";
+import CustomMenuOption from "./CustomMenuOption";
 
 const HomeHeader = () => {
   const { user, logout } = useAuth();
@@ -52,12 +53,13 @@ const HomeHeader = () => {
         <MenuOptions
           optionsContainerStyle={{
             borderRadius: 5,
-            padding: 5,
             marginTop: 35,
+            minWidth: 150,
+            width: "auto",
           }}
         >
-          <MenuOption text="Profil" />
-          <MenuOption onSelect={handleLogout} text="Logout" />
+          <CustomMenuOption text="Profil" />
+          <CustomMenuOption text="Logout" onPress={handleLogout} />
         </MenuOptions>
       </Menu>
     </View>

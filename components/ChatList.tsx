@@ -15,8 +15,8 @@ const ChatList = () => {
   }, []);
 
   const getUsers = async () => {
+    setLoading(true);
     try {
-      setLoading(true);
       const q = query(usersRef, where("userId", "!=", user?.uid));
       const querySnapshot = await getDocs(q);
       const usersData: any[] = [];

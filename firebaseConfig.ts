@@ -9,7 +9,7 @@ import ReactNativeAsyncStorage from "@react-native-async-storage/async-storage";
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyDjKFAxb1QVLsDEcqbF4F3MG9KKFFYiUtA",
+  apiKey: process.env.EXPO_PUBLIC_API_KEY,
   authDomain: "react-native-chat-dd4ff.firebaseapp.com",
   projectId: "react-native-chat-dd4ff",
   storageBucket: "react-native-chat-dd4ff.appspot.com",
