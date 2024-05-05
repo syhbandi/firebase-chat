@@ -30,7 +30,9 @@ const ChatRoomHeader = ({ username, profileUrl }: Props) => {
           transition={1000}
           className="h-8 w-8 rounded-full"
         />
-        <Text className="font-semibold text-lg text-white">{username}</Text>
+        <Text className="font-semibold text-xl text-white" numberOfLines={1}>
+          {username}
+        </Text>
       </TouchableOpacity>
       <View className="flex-row gap-5">
         <TouchableOpacity>

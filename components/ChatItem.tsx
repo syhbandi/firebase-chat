@@ -38,10 +38,10 @@ const ChatItem = ({ user }: PropsType) => {
 
       <View className="ml-4 flex-1">
         <View className="flex-row justify-between items-center">
-          <Text className="font-semibold text-neutral-800 text-base">
+          <Text className="font-semibold text-neutral-800 text-lg">
             {user.username}
           </Text>
-          <Text className="ml-auto self-start text-neutral-500 text-xs font-semibold">
+          <Text className="ml-auto self-start text-neutral-500 font-semibold">
             Time
           </Text>
         </View>
