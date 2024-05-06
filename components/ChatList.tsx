@@ -33,8 +33,6 @@ const ChatList = () => {
     }
   };
 
-  console.log(users, user?.userId);
-
   return (
     <View className="flex-1 pt-3">
       {loading ? (

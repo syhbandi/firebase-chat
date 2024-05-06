@@ -77,7 +77,7 @@ const ChatRoom = () => {
     const keyBoardListener = Keyboard.addListener("keyboardDidShow", () => {
       setTimeout(() => {
         msgListRef.current?.scrollToEnd({ animated: true });
-      }, 200);
+      }, 500);
     });
 
     return () => {
@@ -89,7 +89,7 @@ const ChatRoom = () => {
   useEffect(() => {
     setTimeout(() => {
       msgListRef.current?.scrollToEnd({ animated: true });
-    }, 200);
+    }, 500);
   }, [messages]);
 
   const handleSendMessage = async () => {
