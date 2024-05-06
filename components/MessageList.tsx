@@ -1,4 +1,4 @@
-import { View, Text, FlatList } from "react-native";
+import { FlatList } from "react-native";
 import React, { forwardRef } from "react";
 import { MessageType } from "@/app/(app)/chatRoom";
 import MessageItem from "./MessageItem";
@@ -12,9 +12,11 @@ const MessageList = forwardRef<FlatList, Props>(({ messages }, ref) => {
     <FlatList
       ref={ref}
       data={messages}
-      renderItem={({ item }) => <MessageItem message={item} />}
+      renderItem={({ item, index }) => (
+        <MessageItem message={item} index={index} />
+      )}
       showsVerticalScrollIndicator={false}
-      contentContainerStyle={{ paddingTop: 10 }}
+      contentContainerStyle={{ paddingHorizontal: 20 }}
     />
   );
 });
