@@ -1,23 +1,23 @@
 import { View, Text, FlatList, ActivityIndicator, Alert } from "react-native";
 import React, { useEffect, useState } from "react";
 import ChatItem from "./ChatItem";
-import { useAuth } from "@/context/authContext";
+import { UserType, useAuth } from "@/context/authContext";
 import { usersRef } from "@/firebaseConfig";
 import { getDocs, query, where } from "firebase/firestore";
 
 const ChatList = () => {
-  const [users, setUsers] = useState<any[]>([]);
+  const [users, setUsers] = useState<UserType[]>([]);
   const { user } = useAuth();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (user?.uid) getUsers();
+    if (user?.userId) getUsers();
   }, []);
 
   const getUsers = async () => {
     setLoading(true);
     try {
-      const q = query(usersRef, where("userId", "!=", user?.uid));
+      const q = query(usersRef, where("userId", "!=", user?.userId));
       const querySnapshot = await getDocs(q);
       const usersData: any[] = [];
       querySnapshot.forEach((doc) => {
@@ -33,6 +33,8 @@ const ChatList = () => {
     }
   };
 
+  console.log(users, user?.userId);
+
   return (
     <View className="flex-1 pt-3">
       {loading ? (
@@ -44,7 +46,7 @@ const ChatList = () => {
       ) : (
         <FlatList
           data={users}
-          renderItem={({ item }) => <ChatItem user={item} />}
+          renderItem={({ item }) => <ChatItem item={item} />}
         />
       )}
     </View>

@@ -42,7 +42,7 @@ export function useAuth() {
 }
 
 export type UserType = {
-  uid?: string;
+  userId?: string;
   username?: string;
   email?: string;
   profileUrl?: string;
@@ -57,7 +57,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const unsub = onAuthStateChanged(auth, (user: UserType | any) => {
       if (user) {
         setIsAuthenticated(true);
-        setUser(user);
+        setUser({ ...user, userId: user.uid });
         updateUserData(user.uid);
         setLoading(false);
       } else {
@@ -73,7 +73,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const docSnap = await getDoc(doc(db, "users", uid));
     const data = docSnap.data();
     setUser((current) => ({
-      ...current,
+      ...current!,
       username: data?.username,
       profileUrl: data?.profileUrl,
     }));

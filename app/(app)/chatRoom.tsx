@@ -49,7 +49,7 @@ const ChatRoom = () => {
   const msgListRef = useRef<FlatList>(null);
 
   const createRoomIfNotExist = async () => {
-    const roomId = getRoomId(user?.uid!, userId);
+    const roomId = getRoomId(user?.userId!, userId);
 
     try {
       await setDoc(doc(db, "rooms", roomId), {
@@ -64,7 +64,7 @@ const ChatRoom = () => {
   useEffect(() => {
     createRoomIfNotExist();
 
-    const roomId = getRoomId(user?.uid!, userId);
+    const roomId = getRoomId(user?.userId!, userId);
     const roomDocRef = doc(db, "rooms", roomId);
     const messagesRef = collection(roomDocRef, "messages");
     const q = query(messagesRef, orderBy("createdAt", "asc"));
@@ -96,19 +96,18 @@ const ChatRoom = () => {
     if (!message.trim()) return;
 
     try {
-      const roomId = getRoomId(user?.uid!, userId);
+      const roomId = getRoomId(user?.userId!, userId);
       const roomRef = doc(db, "rooms", roomId);
       const messageRef = collection(roomRef, "messages");
 
-      const newDoc = await addDoc(messageRef, {
-        userId: user?.uid,
+      await addDoc(messageRef, {
+        userId: user?.userId,
         text: message.trim(),
         profileUrl: user?.profileUrl,
         senderName: user?.username,
         createdAt: Timestamp.fromDate(new Date()),
       });
 
-      console.log("messageid", newDoc.id);
       setMessage("");
     } catch (error: any) {
       Alert.alert("Oops!", error.message);
