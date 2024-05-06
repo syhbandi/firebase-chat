@@ -1,5 +1,5 @@
 import { View, Text, FlatList } from "react-native";
-import React from "react";
+import React, { forwardRef } from "react";
 import { MessageType } from "@/app/(app)/chatRoom";
 import MessageItem from "./MessageItem";
 
@@ -7,15 +7,16 @@ type Props = {
   messages: MessageType[] | any[];
 };
 
-const MessageList = ({ messages }: Props) => {
+const MessageList = forwardRef<FlatList, Props>(({ messages }, ref) => {
   return (
     <FlatList
+      ref={ref}
       data={messages}
       renderItem={({ item }) => <MessageItem message={item} />}
       showsVerticalScrollIndicator={false}
-      contentContainerStyle={{ paddingTop: 20, paddingHorizontal: 20 }}
+      contentContainerStyle={{ paddingTop: 10 }}
     />
   );
-};
+});
 
 export default MessageList;

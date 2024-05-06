@@ -9,8 +9,8 @@ const MessageItem = ({ message }: { message: MessageType }) => {
     <View
       className={`p-2 px-3 rounded-lg border  mb-2 font-semibold ${
         message.userId === user?.uid
-          ? "bg-green-200 self-end border-green-300"
-          : "bg-neutral-200 border-neutral-300 self-start"
+          ? "bg-green-200 self-end border-green-300 mr-5"
+          : "bg-neutral-200 border-neutral-300 self-start ml-5"
       }`}
     >
       <Text className="text-base">{message.text}</Text>

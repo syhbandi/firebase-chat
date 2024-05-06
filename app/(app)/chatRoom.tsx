@@ -5,8 +5,9 @@ import {
   TextInput,
   TouchableOpacity,
   Alert,
+  Keyboard,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Stack, useLocalSearchParams } from "expo-router";
 import ChatRoomHeader from "@/components/ChatRoomHeader";
 import { Feather } from "@expo/vector-icons";
@@ -45,6 +46,7 @@ const ChatRoom = () => {
     MessageType[] | DocumentData[] | any[]
   >([]);
   const [message, setMessage] = useState("");
+  const msgListRef = useRef<FlatList>(null);
 
   const createRoomIfNotExist = async () => {
     const roomId = getRoomId(user?.uid!, userId);
@@ -71,8 +73,24 @@ const ChatRoom = () => {
       let newMessages = snapshot.docs.map((doc) => doc.data());
       setMessages([...newMessages]);
     });
-    return unsub;
+
+    const keyBoardListener = Keyboard.addListener("keyboardDidShow", () => {
+      setTimeout(() => {
+        msgListRef.current?.scrollToEnd({ animated: true });
+      }, 200);
+    });
+
+    return () => {
+      unsub();
+      keyBoardListener.remove();
+    };
   }, []);
+
+  useEffect(() => {
+    setTimeout(() => {
+      msgListRef.current?.scrollToEnd({ animated: true });
+    }, 200);
+  }, [messages]);
 
   const handleSendMessage = async () => {
     if (!message.trim()) return;
@@ -106,7 +124,7 @@ const ChatRoom = () => {
           ),
         }}
       />
-      <MessageList messages={messages} />
+      <MessageList messages={messages} ref={msgListRef} />
       <View className="bg-white py-3 px-5 border-t border-neutral-200 flex-row items-center">
         <TextInput
           value={message}
