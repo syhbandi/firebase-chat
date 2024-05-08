@@ -12,6 +12,7 @@ import {
   MenuTrigger,
 } from "react-native-popup-menu";
 import CustomMenuOption from "./CustomMenuOption";
+import { router } from "expo-router";
 
 const HomeHeader = () => {
   const { user, logout } = useAuth();
@@ -58,7 +59,10 @@ const HomeHeader = () => {
             width: "auto",
           }}
         >
-          <CustomMenuOption text="Profil" />
+          <CustomMenuOption
+            text="Profil"
+            onPress={() => router.push("/(app)/profile")}
+          />
           <CustomMenuOption text="Logout" onPress={handleLogout} />
         </MenuOptions>
       </Menu>
