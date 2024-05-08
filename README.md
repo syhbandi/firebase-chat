@@ -1,22 +1,29 @@
 ## React native Firebase chat app
 
 ## Get Started
-``` bash
+
+```bash
 # install dependencies
 npm install
 ```
+
 Or use `yarn`
-``` bash
+
+```bash
 yarn install
 ```
-``` bash
+
+```bash
 # run project
 expo start
 ```
-Using npx
+
+Or
+
 ```bash
 npx expo start
 ```
+
 ## Contributing
 
 If you'd like to contribute, please fork the repository and make changes as
