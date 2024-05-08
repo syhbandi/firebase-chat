@@ -129,7 +129,7 @@ const ChatRoom = () => {
           value={message}
           onChangeText={(text) => setMessage(text)}
           placeholder="Type message"
-          className="text-base flex-1 border border-neutral-200 py-2 px-5 mr-2 rounded-full font-medium max-h-14"
+          className="text-base flex-1 border border-neutral-200 py-2 px-5 mr-2 rounded-full max-h-14"
           multiline={true}
         />
         <TouchableOpacity

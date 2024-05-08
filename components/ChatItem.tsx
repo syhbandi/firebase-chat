@@ -51,6 +51,17 @@ const ChatItem = ({ item }: PropsType) => {
     return unsub;
   }, []);
 
+  const formatedDate = () => {
+    if (!lastMessage) return "";
+    const messageDate = new Date(lastMessage?.createdAt?.seconds * 1000);
+    const format = new Intl.DateTimeFormat("id", {
+      dateStyle: "short",
+    }).format(messageDate);
+    return format;
+  };
+
+  console.log();
+
   return (
     <TouchableOpacity
       className="flex-row py-3 px-5 items-center"
@@ -72,7 +83,7 @@ const ChatItem = ({ item }: PropsType) => {
             {item.username}
           </Text>
           <Text className="ml-auto self-start text-neutral-500 font-semibold">
-            Time
+            {loading ? "Loading" : formatedDate()}
           </Text>
         </View>
         <Text className="font-medium text-neutral-400" numberOfLines={1}>
