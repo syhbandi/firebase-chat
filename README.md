@@ -13,6 +13,10 @@ yarn install
 # run project
 expo start
 ```
+Using npx
+```bash
+npx expo start
+```
 ## Contributing
 
 If you'd like to contribute, please fork the repository and make changes as
